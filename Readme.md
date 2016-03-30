@@ -92,8 +92,7 @@ any component development.
 
 - Adding more JavaScript to the manager UI
 
-The manager web UI is already difficult to modify. Adding complex code
-to run an IDE would definitely make a difficult situation worse.
+Too much effort ...
 
 - Debugger
 
