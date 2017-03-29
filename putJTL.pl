@@ -42,13 +42,14 @@ my ( $tmpName, $jtlPath, $jtlSuf ) = fileparse($jtlFilename,".xml");
 $jtlName = $tmpName if (!defined $jtlName);
 
 open( JTLFILE, "<$jtlFilename" ) or die "ERROR: unable to open [$jtlFilename.xml]";
-my @jtlLines = <JTLFILE>;
+my $jtlFileContent = do { local $/; <JTLFILE> };
 close JTLFILE;
 
 my $soap = new SigniantJobTemplateLibraryService();
 $soap->setup( "http://$mgr/signiant/", $user, $passwd ) or die "ERROR: Unable to create SOAP connection";
 
-my $err = $soap->importJobTemplateLibrary($jtlName,"@jtlLines");
+my $err = $soap->importJobTemplateLibrary($jtlName,$jtlFileContent);
+
 __END__
 
 =head1 NAME
@@ -77,11 +78,11 @@ The name of the Job Template Library to store the XML as. If this is not provide
 
 =item B<-file>
 
-Perform all the specified substitutions and start the program in the perl debugger.
+XML file containing the Job Template Library.
 
 =item B<-mgr>
 
-The hostname of the Signiant manager to retreive the JTL from.
+The hostname of the Signiant manager to publish the JTL to.
 
 =item B<-usr>
 
